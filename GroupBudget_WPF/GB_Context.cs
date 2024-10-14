@@ -12,6 +12,7 @@ namespace GroupBudget_WPF
 {
     public class GB_Context : DbContext
     {
+        public DbSet<Budget> Budgets { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Person> Persons { get; set; }
         public DbSet<PersonProject> PersonsProjects { get; set; }
