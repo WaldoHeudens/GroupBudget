@@ -1,9 +1,8 @@
 ﻿<Window x:Class="GroupBudget_WPF.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:GroupBudget_WPF"
         xmlns:res="clr-namespace:GroupBudget_WPF.Resources"
         mc:Ignorable="d"
         Title="GroupBuget" Height="450" Width="800">
@@ -11,9 +10,20 @@
     <Window.Resources>
         <ResourceDictionary Source="Resources/Styles.xaml"/>
     </Window.Resources>
-    
-    <Grid>
-        <TextBlock x:Name="Info" Style="{StaticResource tbInfo}" Text="{x:Static res:Strings.MainInfo}" Height="108" Width="391"/>
 
-    </Grid>
+    <TabControl x:Name="tcGeneral">
+        <TabItem x:Name="tiGeneral" Header="GroupBudget">
+           <TextBlock x:Name="Info" Style="{StaticResource tbInfo}" Text="{x:Static res:Strings.MainInfo}" Height="108" Width="391"/>
+        </TabItem>
+        <TabItem x:Name="tiPeople" Header="People" GotFocus="tiPeople_GotFocus" Height="20" VerticalAlignment="Top" >
+            <DataGrid x:Name="dgPersons" Width="500" SelectionMode="Single" SelectionUnit="FullRow" MouseLeftButtonUp="dgPersons_MouseLeftButtonUp" >
+            </DataGrid>
+        </TabItem>
+        <TabItem x:Name="tiProjects" Header="Projects">
+            
+        </TabItem>
+        <TabItem x:Name="tiBudget" Header="Budget">
+            
+        </TabItem>
+    </TabControl>
 </Window>

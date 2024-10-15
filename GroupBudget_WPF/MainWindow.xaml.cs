@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using GroupBudget_WPF.Models;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -22,6 +23,30 @@ namespace GroupBudget_WPF
 
             // Interpretation of Xaml
             InitializeComponent();
+            //dgPersons.ItemsSource = context.Persons.Where(p => p.Deleted > DateTime.Now).ToList();
+        }
+
+        private void tiPeople_GotFocus(object sender, RoutedEventArgs e)
+        {
+            dgPersons.ItemsSource = (from person in App.Context.Persons
+                                     where person.Deleted > DateTime.Now
+                                     //select new { person.Id, person.Name, person.FirstName, person.LastName })
+                                     select person)
+                                     .ToList();
+            dgPersons.Columns[0].Visibility = Visibility.Collapsed;
+            dgPersons.Columns[1].Width = 100;
+            dgPersons.Columns[2].Width = 200;
+            dgPersons.Columns[3].Width = 200;
+        }
+
+
+        private void dgPersons_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            Person person = (Person)dgPersons.CurrentItem;
+            if (person != null)
+            {
+                int id = person.Id;
+            }
         }
     }
 }

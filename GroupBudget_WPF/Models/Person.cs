@@ -29,4 +29,6 @@ namespace GroupBudget_WPF.Models
         public DateTime Added { get; set; } = DateTime.Now;
         public DateTime Deleted { get; set; } = DateTime.MaxValue;
     }
+
+
 }
