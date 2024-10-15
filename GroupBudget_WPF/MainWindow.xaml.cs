@@ -29,7 +29,8 @@ namespace GroupBudget_WPF
 
         private void tiPeople_GotFocus(object sender, RoutedEventArgs e)
         {
-            InitDgPersons();
+            if (dgPersons.ItemsSource == null)
+                InitTiPeople();
         }
 
 
@@ -42,28 +43,32 @@ namespace GroupBudget_WPF
                 tbFirstName.Text = person.FirstName;
                 tbLastName.Text = person.LastName;
                 tbUserName.Text = person.Name;
+                tbUserName.IsEnabled = false;
             }
         }
 
         private void btAdd_Click(object sender, RoutedEventArgs e)
         {
-            if (!(string.IsNullOrEmpty(tbFirstName.Text)
-                || string.IsNullOrEmpty(tbLastName.Text)
-                || string.IsNullOrEmpty(tbUserName.Text)))
-            {
-                Person p = App.Context.Persons.FirstOrDefault(p => p.Name == tbUserName.Text);
-                if (p == null)
-                {
-                    Person person = new Person { FirstName = tbFirstName.Text, LastName = tbLastName.Text, Name = tbUserName.Text };
-                    //App.Context.Persons.Add(person);   // You can assign specifically
-                    App.Context.Add(person);
-                    App.Context.SaveChanges();
-                    InitDgPersons();
-                }
-            }
+            //if (!(string.IsNullOrEmpty(tbFirstName.Text)
+            //    || string.IsNullOrEmpty(tbLastName.Text)
+            //    || string.IsNullOrEmpty(tbUserName.Text)))
+            //{
+            //    Person p = App.Context.Persons.FirstOrDefault(p => p.Name == tbUserName.Text);
+            //    if (p == null)
+            //    {
+            //        Person person = new Person { FirstName = tbFirstName.Text, LastName = tbLastName.Text, Name = tbUserName.Text };
+            //        //App.Context.Persons.Add(person);   // You can assign specifically
+            //        App.Context.Add(person);
+            //        App.Context.SaveChanges();
+            //        InitDgPersons();
+            //    }
+            tbFirstName.Text = "";
+            tbLastName.Text = "";
+            tbUserName.Text = "";
+            tbUserName.IsEnabled = true;
         }
 
-        private void InitDgPersons()
+        private void InitTiPeople()
         {
             dgPersons.ItemsSource = (from person in App.Context.Persons
                                      where person.Deleted > DateTime.Now
@@ -77,20 +82,36 @@ namespace GroupBudget_WPF
             dgPersons.Columns[3].Width = 200;
             dgPersons.Columns[2].Header = "First name";
             dgPersons.Columns[3].Header = "Last name";
+            btSave.IsEnabled = false;
+            tbUserName.IsEnabled = false;
         }
 
         private void btSave_Click(object sender, RoutedEventArgs e)
         {
             Person person = App.Context.Persons.FirstOrDefault(p => p.Name == tbUserName.Text);
+            if (person==null)  // no person found, so this person has to be added
+                person = new Person();
             //Person person = App.Context.Persons.FirstOrDefault(p => p.Id == ((Person)dgPersons.SelectedItem).Id);
             if (person != null)
             {
+                person.Name = tbUserName.Text;
                 person.FirstName = tbFirstName.Text;
                 person.LastName = tbLastName.Text;
-                App.Context.Update(person);
+                if (person.Id > 0)
+                //if (!tbUserName.IsEnabled)      // valid alternative
+                    App.Context.Update(person);
+                else
+                    App.Context.Add(person);
                 App.Context.SaveChanges();
-                InitDgPersons();
+                InitTiPeople();
+            }
+        }
 
+        private void tb_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!(tbUserName.Text=="" || tbFirstName.Text=="" || tbLastName.Text==""))
+            {
+                btSave.IsEnabled = true;
             }
         }
     }

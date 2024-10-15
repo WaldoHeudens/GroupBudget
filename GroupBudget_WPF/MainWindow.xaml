@@ -37,11 +37,11 @@
                             <RowDefinition Height="25"/>
                         </Grid.RowDefinitions>
                         <Label Grid.Row="0" Grid.Column="0" Content="User name :" />
-                        <TextBox x:Name="tbUserName" Grid.Row="0" Grid.Column="1" Style="{StaticResource tbStyle}"/>
+                        <TextBox x:Name="tbUserName" Grid.Row="0" Grid.Column="1" Style="{StaticResource tbStyle}" TextChanged="tb_TextChanged" />
                         <Label Content="First name :" Grid.Row="1" Grid.Column="0" />
-                        <TextBox x:Name="tbFirstName" Grid.Row="1" Grid.Column="1" Style="{StaticResource tbStyle}" />
+                        <TextBox x:Name="tbFirstName" Grid.Row="1" Grid.Column="1" Style="{StaticResource tbStyle}" TextChanged="tb_TextChanged"/>
                         <Label Content="Last name :" Grid.Row="2" Grid.Column="0" />
-                        <TextBox x:Name="tbLastName" Grid.Row="2" Grid.Column="1" Style="{StaticResource tbStyle}" />
+                        <TextBox x:Name="tbLastName" Grid.Row="2" Grid.Column="1" Style="{StaticResource tbStyle}" TextChanged="tb_TextChanged" />
                     </Grid>
                 </GroupBox>
             </StackPanel>
