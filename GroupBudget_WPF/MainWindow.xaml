@@ -12,20 +12,27 @@
     </Window.Resources>
 
     <TabControl x:Name="tcGeneral">
-        <TabItem x:Name="tiGeneral" Header="GroupBudget">
+        <TabItem x:Name="tiGeneral" Header="{x:Static res:Strings.General}">
            <TextBlock x:Name="Info" Style="{StaticResource tbInfo}" Text="{x:Static res:Strings.MainInfo}" Height="108" Width="391"/>
         </TabItem>
-        <TabItem x:Name="tiPeople" Header="People" GotFocus="tiPeople_GotFocus" Height="20" VerticalAlignment="Top" >
+        <TabItem x:Name="tiPeople" Header="{x:Static res:Strings.People}" GotFocus="tiPeople_GotFocus" Height="20" VerticalAlignment="Top" >
             <StackPanel Orientation="Vertical">
-                <Label Content="People:"/>
+                <Grid Margin="10, 15, 0, 5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="250"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Content="{x:Static res:Strings.People}"/>
+                    <TextBox x:Name="tbSelecting" Grid.Column="1" Style="{StaticResource tbStyle}" KeyUp="tbSelecting_KeyUp" />
+                </Grid>
                 <DataGrid x:Name="dgPersons" Style="{StaticResource dgStyle}" Height="200" Width="500" MouseLeftButtonUp="dgPersons_MouseLeftButtonUp" >
                 </DataGrid>
-                <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Horizontal" Margin="5,10,0,0">
                     <Button x:Name="btAdd" Style="{StaticResource buStyle}" Content=" + " Click="btAdd_Click"/>
-                    <Button x:Name="btSave" Style="{StaticResource buStyle}" Content=" Save Changes " Click="btSave_Click"/>
-                    <Button x:Name="btDelete" Style="{StaticResource buStyle}" Content=" Delete " Click="btDelete_Click"/>
+                    <Button x:Name="btSave" Style="{StaticResource buStyle}" Content="{x:Static res:Strings.SaveChanges}" Click="btSave_Click"/>
+                    <Button x:Name="btDelete" Style="{StaticResource buStyle}" Content="{x:Static res:Strings.Delete}" Click="btDelete_Click"/>
                 </StackPanel>
-                <GroupBox Header="Selected Person" Margin="0,10,0,0">
+                <GroupBox Header="{x:Static res:Strings.Selected_Person}" Margin="0,5,0,0">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="100"/>
@@ -36,20 +43,20 @@
                             <RowDefinition Height="25"/>
                             <RowDefinition Height="25"/>
                         </Grid.RowDefinitions>
-                        <Label Grid.Row="0" Grid.Column="0" Content="User name :" />
+                        <Label Grid.Row="0" Grid.Column="0" Content="{x:Static res:Strings.UserName}" />
                         <TextBox x:Name="tbUserName" Grid.Row="0" Grid.Column="1" Style="{StaticResource tbStyle}" TextChanged="tb_TextChanged" />
-                        <Label Content="First name :" Grid.Row="1" Grid.Column="0" />
+                        <Label Grid.Row="1" Grid.Column="0" Content="{x:Static res:Strings.FirstName}"/>
                         <TextBox x:Name="tbFirstName" Grid.Row="1" Grid.Column="1" Style="{StaticResource tbStyle}" TextChanged="tb_TextChanged"/>
-                        <Label Content="Last name :" Grid.Row="2" Grid.Column="0" />
+                        <Label Grid.Row="2" Grid.Column="0" Content="{x:Static res:Strings.LastName}"/>
                         <TextBox x:Name="tbLastName" Grid.Row="2" Grid.Column="1" Style="{StaticResource tbStyle}" TextChanged="tb_TextChanged" />
                     </Grid>
                 </GroupBox>
             </StackPanel>
         </TabItem>
-        <TabItem x:Name="tiProjects" Header="Projects">
+        <TabItem x:Name="tiProjects" Header="{x:Static res:Strings.Projects}">
             
         </TabItem>
-        <TabItem x:Name="tiBudget" Header="Budget">
+        <TabItem x:Name="tiBudget" Header="{x:Static res:Strings.Budget}">
             
         </TabItem>
     </TabControl>

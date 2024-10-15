@@ -126,4 +126,40 @@
   <data name="File" xml:space="preserve">
     <value>File</value>
   </data>
+  <data name="Budget" xml:space="preserve">
+    <value>Budget</value>
+  </data>
+  <data name="ConfirmDelete" xml:space="preserve">
+    <value>Are you sure to delete user {0} ?</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Delete?" xml:space="preserve">
+    <value>Delete ???</value>
+  </data>
+  <data name="FirstName" xml:space="preserve">
+    <value>First name :</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="LastName" xml:space="preserve">
+    <value>Family name :</value>
+  </data>
+  <data name="People" xml:space="preserve">
+    <value>People</value>
+  </data>
+  <data name="Projects" xml:space="preserve">
+    <value>Projects</value>
+  </data>
+  <data name="SaveChanges" xml:space="preserve">
+    <value>Save Changes</value>
+  </data>
+  <data name="Selected Person" xml:space="preserve">
+    <value>Selected Person</value>
+  </data>
+  <data name="UserName" xml:space="preserve">
+    <value>User name :</value>
+  </data>
 </root>

@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using GroupBudget_WPF.Resources;             // needed to acces resource strings
 
 namespace GroupBudget_WPF
 {
@@ -18,10 +19,10 @@ namespace GroupBudget_WPF
     /// </summary>
     public partial class MainWindow : Window
     {
+        GB_Context context = App.Context;
+
         public MainWindow()
         {
-            GB_Context context = App.Context;
-
             // Interpretation of Xaml
             InitializeComponent();
             //dgPersons.ItemsSource = context.Persons.Where(p => p.Deleted > DateTime.Now).ToList();
@@ -29,8 +30,11 @@ namespace GroupBudget_WPF
 
         private void tiPeople_GotFocus(object sender, RoutedEventArgs e)
         {
-            if (dgPersons.ItemsSource == null)
+            if (dgPersons.ItemsSource == null)  // Only perform InitTiPeople when tiPeople got its first focus
+            {
+                tbSelecting.Text = "";
                 InitTiPeople();
+            }
         }
 
 
@@ -60,9 +64,12 @@ namespace GroupBudget_WPF
         private void InitTiPeople()
         {
             dgPersons.ItemsSource = (from person in App.Context.Persons
-                                     where person.Deleted > DateTime.Now
+                                     where  person.Deleted > DateTime.Now
+                                            && (tbSelecting.Text == ""
+                                                || person.Name.Contains(tbSelecting.Text)
+                                                || person.FirstName.Contains(tbSelecting.Text)
+                                                || person.LastName.Contains(tbSelecting.Text))
                                      orderby person.LastName, person.FirstName
-                                     //select new { person.Id, person.Name, person.FirstName, person.LastName })
                                      select new PersonDatagridViewModel(person)
                                      ).ToList();
             dgPersons.Columns[0].Visibility = Visibility.Collapsed;
@@ -78,7 +85,7 @@ namespace GroupBudget_WPF
 
         private void btSave_Click(object sender, RoutedEventArgs e)
         {
-            Person person = App.Context.Persons.FirstOrDefault(p => p.Name == tbUserName.Text);
+            Person person = context.Persons.FirstOrDefault(p => p.Name == tbUserName.Text);
             if (person==null)  // no person found, so this person has to be added
                 person = new Person();
             //Person person = App.Context.Persons.FirstOrDefault(p => p.Id == ((Person)dgPersons.SelectedItem).Id);
@@ -89,10 +96,10 @@ namespace GroupBudget_WPF
                 person.LastName = tbLastName.Text;
                 if (person.Id > 0)
                 //if (!tbUserName.IsEnabled)      // valid alternative
-                    App.Context.Update(person);
+                    context.Update(person);
                 else
-                    App.Context.Add(person);
-                App.Context.SaveChanges();
+                    context.Add(person);
+                context.SaveChanges();
                 InitTiPeople();
             }
         }
@@ -107,14 +114,21 @@ namespace GroupBudget_WPF
 
         private void btDelete_Click(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show("Are you sure to delete user " + tbUserName.Text, "Delete ???", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+
+            string s = string.Format(Strings.ResourceManager.GetString("ConfirmDelete"),tbUserName.Text);
+            if (MessageBox.Show(s, Strings.ResourceManager.GetString("Delete?"), MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
                 Person person = App.Context.Persons.FirstOrDefault(p => p.Name == tbUserName.Text);
                 person.Deleted = DateTime.Now;
-                App.Context.Update(person);
-                App.Context.SaveChanges();
+                context.Update(person);
+                context.SaveChanges();
                 InitTiPeople();
             }
+        }
+
+        private void tbSelecting_KeyUp(object sender, KeyEventArgs e)
+        {
+            InitTiPeople();
         }
     }
 }
