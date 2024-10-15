@@ -16,7 +16,7 @@
            <TextBlock x:Name="Info" Style="{StaticResource tbInfo}" Text="{x:Static res:Strings.MainInfo}" Height="108" Width="391"/>
         </TabItem>
         <TabItem x:Name="tiPeople" Header="People" GotFocus="tiPeople_GotFocus" Height="20" VerticalAlignment="Top" >
-            <DataGrid x:Name="dgPersons" Width="500" SelectionMode="Single" SelectionUnit="FullRow" MouseLeftButtonUp="dgPersons_MouseLeftButtonUp" >
+            <DataGrid x:Name="dgPersons" Style="{StaticResource dgStyle}" Width="500" MouseLeftButtonUp="dgPersons_MouseLeftButtonUp" >
             </DataGrid>
         </TabItem>
         <TabItem x:Name="tiProjects" Header="Projects">

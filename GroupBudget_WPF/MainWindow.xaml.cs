@@ -30,19 +30,22 @@ namespace GroupBudget_WPF
         {
             dgPersons.ItemsSource = (from person in App.Context.Persons
                                      where person.Deleted > DateTime.Now
+                                     orderby person.LastName, person.FirstName
                                      //select new { person.Id, person.Name, person.FirstName, person.LastName })
-                                     select person)
-                                     .ToList();
+                                     select new PersonDatagridViewModel(person)
+                                     ).ToList();
             dgPersons.Columns[0].Visibility = Visibility.Collapsed;
             dgPersons.Columns[1].Width = 100;
             dgPersons.Columns[2].Width = 200;
             dgPersons.Columns[3].Width = 200;
+            dgPersons.Columns[2].Header = "First name";
+            dgPersons.Columns[3].Header = "Last name";
         }
 
 
         private void dgPersons_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            Person person = (Person)dgPersons.CurrentItem;
+            PersonDatagridViewModel person = (PersonDatagridViewModel)dgPersons.CurrentItem;
             if (person != null)
             {
                 int id = person.Id;
