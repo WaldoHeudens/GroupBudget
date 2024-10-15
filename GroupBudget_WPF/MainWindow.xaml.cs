@@ -44,28 +44,17 @@ namespace GroupBudget_WPF
                 tbLastName.Text = person.LastName;
                 tbUserName.Text = person.Name;
                 tbUserName.IsEnabled = false;
+                btDelete.IsEnabled = true;
             }
         }
 
         private void btAdd_Click(object sender, RoutedEventArgs e)
         {
-            //if (!(string.IsNullOrEmpty(tbFirstName.Text)
-            //    || string.IsNullOrEmpty(tbLastName.Text)
-            //    || string.IsNullOrEmpty(tbUserName.Text)))
-            //{
-            //    Person p = App.Context.Persons.FirstOrDefault(p => p.Name == tbUserName.Text);
-            //    if (p == null)
-            //    {
-            //        Person person = new Person { FirstName = tbFirstName.Text, LastName = tbLastName.Text, Name = tbUserName.Text };
-            //        //App.Context.Persons.Add(person);   // You can assign specifically
-            //        App.Context.Add(person);
-            //        App.Context.SaveChanges();
-            //        InitDgPersons();
-            //    }
             tbFirstName.Text = "";
             tbLastName.Text = "";
             tbUserName.Text = "";
             tbUserName.IsEnabled = true;
+            btDelete.IsEnabled = false;
         }
 
         private void InitTiPeople()
@@ -84,6 +73,7 @@ namespace GroupBudget_WPF
             dgPersons.Columns[3].Header = "Last name";
             btSave.IsEnabled = false;
             tbUserName.IsEnabled = false;
+            btDelete.IsEnabled = false;
         }
 
         private void btSave_Click(object sender, RoutedEventArgs e)
@@ -112,6 +102,18 @@ namespace GroupBudget_WPF
             if (!(tbUserName.Text=="" || tbFirstName.Text=="" || tbLastName.Text==""))
             {
                 btSave.IsEnabled = true;
+            }
+        }
+
+        private void btDelete_Click(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show("Are you sure to delete user " + tbUserName.Text, "Delete ???", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                Person person = App.Context.Persons.FirstOrDefault(p => p.Name == tbUserName.Text);
+                person.Deleted = DateTime.Now;
+                App.Context.Update(person);
+                App.Context.SaveChanges();
+                InitTiPeople();
             }
         }
     }

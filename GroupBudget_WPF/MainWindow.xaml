@@ -23,7 +23,7 @@
                 <StackPanel Orientation="Horizontal">
                     <Button x:Name="btAdd" Style="{StaticResource buStyle}" Content=" + " Click="btAdd_Click"/>
                     <Button x:Name="btSave" Style="{StaticResource buStyle}" Content=" Save Changes " Click="btSave_Click"/>
-                    <Button x:Name="btDelete" Style="{StaticResource buStyle}" Content=" Delete "/>
+                    <Button x:Name="btDelete" Style="{StaticResource buStyle}" Content=" Delete " Click="btDelete_Click"/>
                 </StackPanel>
                 <GroupBox Header="Selected Person" Margin="0,10,0,0">
                     <Grid>
