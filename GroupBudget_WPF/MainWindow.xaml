@@ -55,7 +55,7 @@
         </TabItem>
         <TabItem x:Name="tiProjects" Header="{x:Static res:Strings.Projects}" GotFocus="tiProjects_GotFocus">
             <StackPanel Orientation="Horizontal">
-                <Grid Margin="10, 15, 0, 5">
+                <Grid Margin="10, 15, 0, 5" VerticalAlignment="Top" HorizontalAlignment="Left">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="100"/>
                         <ColumnDefinition Width="250"/>
@@ -65,9 +65,29 @@
                         <RowDefinition />
                     </Grid.RowDefinitions>
                     <Label Content="{x:Static res:Strings.Projects}"/>
-                    <TextBox x:Name="tbProjectSelect" Grid.Column="1" Style="{StaticResource tbStyle}"/>
-                    <ListBox x:Name="lbProjectSelect" Grid.ColumnSpan="2" ItemsSource="{Binding projectList}" >
+                    <TextBox x:Name="tbProjectSelect" Grid.Row="0" Grid.Column="1" Style="{StaticResource tbStyle}"/>
+                    <ListBox x:Name="lbProjectSelect" Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding projectList}" MouseLeftButtonUp="dgProjects_MouseLeftButtonUp" MouseMove="lbProjectSelect_MouseMove">
                     </ListBox>
+                </Grid>
+                <Grid Margin="10, 15, 0, 5" VerticalAlignment="Top" HorizontalAlignment="Left">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Label Content="{x:Static res:Strings.Project}"/>
+                    <TextBox x:Name="tbProjectName" Grid.Row="0" Grid.Column="1" Style="{StaticResource ResourceKey=tbStyle}" />
+                    <Label Content="{x:Static res:Strings.Description}" Grid.Row="1" Grid.Column="0"/>
+                    <TextBox x:Name="tbProjectDescription" Grid.Row="1" Grid.Column="1" Style="{StaticResource ResourceKey=tbStyle}" />
+                    <Label Content="{x:Static res:Strings.StartDate}" Grid.Row="2" Grid.Column="0"/>
+                    <TextBlock x:Name="tbProjectStartDate" Grid.Row="2" Grid.Column="1" Style="{StaticResource ResourceKey=tblStyle}" />
+                    <Label Content="{x:Static res:Strings.Members}" Grid.Row="3" />
+                    <ListBox x:Name="lbMembers" Grid.Row="3" Grid.Column="1"/>
                 </Grid>
             </StackPanel>
         </TabItem>

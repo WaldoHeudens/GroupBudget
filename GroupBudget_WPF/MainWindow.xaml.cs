@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+//using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -168,6 +169,7 @@ namespace GroupBudget_WPF
                                     && (tbProjectSelect.Text == "" || p.Name.Contains(tbProjectSelect.Text)))
                             .OrderBy(p => p.Name)
                             .Include(p => p.ProjectPersons)
+                                .ThenInclude(pp => pp.Person)
                             .ToList();
 
             lbProjectSelect.ItemsSource = (from project in projectList
@@ -190,6 +192,19 @@ namespace GroupBudget_WPF
                 }
                 textChanged = false;
             }
+        }
+
+        private void dgProjects_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            Project project = projectList[((ListBox)sender).SelectedIndex];
+            tbProjectStartDate.Text = project.StartDate.ToString("dd/mm/jj");
+            tbProjectName.Text = project.Name;
+            tbProjectDescription.Text = project.Description;
+            lbMembers.ItemsSource = (from member in project.ProjectPersons select member.Person.Name).ToList();
+        }
+
+        private void lbProjectSelect_MouseMove(object sender, MouseEventArgs e)
+        {
         }
     }
 }
