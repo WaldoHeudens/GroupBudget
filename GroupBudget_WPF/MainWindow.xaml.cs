@@ -7,7 +7,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
-//using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -24,6 +23,7 @@ namespace GroupBudget_WPF
         GB_Context context = App.Context;
         Boolean textChanged = false;
         List<Project> projectList { get; set; } = new List<Project>();    // Contains the datasource of the Listbox
+        ToolTip toolTip = new ToolTip();   // use only this tooltip instead of the control's tooltip
 
 
         public MainWindow()
@@ -173,7 +173,13 @@ namespace GroupBudget_WPF
                             .ToList();
 
             lbProjectSelect.ItemsSource = (from project in projectList
-                                            select project.Name + "   - " + (project.Description.Length > 30 ? project.Description.Substring(0, 30) + " ..." : project.Description));
+                                            select new ListBoxItem {Content= project.Name + "   - " + (project.Description.Length > 30 ? project.Description.Substring(0, 30) + " ..." : project.Description) });
+            
+            // add a MouseEnter event to every single listbox item
+            foreach (ListBoxItem item in lbProjectSelect.Items)
+            {
+                item.MouseEnter += new MouseEventHandler(lbProjectSelectItem_MouseEnter);
+            }
         }
 
         private void tb_LostFocus(object sender, RoutedEventArgs e)
@@ -203,8 +209,22 @@ namespace GroupBudget_WPF
             lbMembers.ItemsSource = (from member in project.ProjectPersons select member.Person.Name).ToList();
         }
 
-        private void lbProjectSelect_MouseMove(object sender, MouseEventArgs e)
+        private void lbProjectSelectItem_MouseEnter(object sender, MouseEventArgs e)
         {
+            lbProjectSelect.ToolTip = null;
+
+            ListBoxItem item = (ListBoxItem)sender;
+            int index = lbProjectSelect.Items.IndexOf(sender);
+            if (projectList[index].Description.Length > 30)
+            {
+                lbProjectSelect.ToolTip = projectList[index].Description;
+            }
+        }
+
+        private void lbProjectSelect_ToolTipOpening(object sender, ToolTipEventArgs e)
+        {
+            // no tooltip should be shown if the tooltip == null
+            e.Handled = ((ListBox)sender).ToolTip == null;
         }
     }
 }

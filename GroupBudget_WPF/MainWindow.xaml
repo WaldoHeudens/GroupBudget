@@ -66,7 +66,8 @@
                     </Grid.RowDefinitions>
                     <Label Content="{x:Static res:Strings.Projects}"/>
                     <TextBox x:Name="tbProjectSelect" Grid.Row="0" Grid.Column="1" Style="{StaticResource tbStyle}"/>
-                    <ListBox x:Name="lbProjectSelect" Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding projectList}" MouseLeftButtonUp="dgProjects_MouseLeftButtonUp" MouseMove="lbProjectSelect_MouseMove">
+                    <ListBox x:Name="lbProjectSelect" Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding projectList}" MouseLeftButtonUp="dgProjects_MouseLeftButtonUp" ToolTipOpening="lbProjectSelect_ToolTipOpening">
+                        
                     </ListBox>
                 </Grid>
                 <Grid Margin="10, 15, 0, 5" VerticalAlignment="Top" HorizontalAlignment="Left">

@@ -26,11 +26,10 @@
         <Setter Property="Height" Value="25"></Setter>
         <Setter Property="Width" Value="200"></Setter>
     </Style>
-    
+
     <Style TargetType="TextBox" x:Key="tbStyle">
         <Setter Property="Height" Value="25"></Setter>
         <Setter Property="Width" Value="200"></Setter>
     </Style>
-
 
 </ResourceDictionary>
