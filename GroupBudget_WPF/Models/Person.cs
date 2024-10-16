@@ -28,6 +28,8 @@ namespace GroupBudget_WPF.Models
         public int ProjectId { get; set; }
         public DateTime Added { get; set; } = DateTime.Now;
         public DateTime Deleted { get; set; } = DateTime.MaxValue;
+
+        public Person Person { get; set; }
     }
 
 

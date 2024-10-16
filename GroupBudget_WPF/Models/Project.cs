@@ -22,5 +22,6 @@ namespace GroupBudget_WPF.Models
 
 
         public Category Category { get; set; } 
+        public List<PersonProject> ProjectPersons { get; set; }
     }
 }

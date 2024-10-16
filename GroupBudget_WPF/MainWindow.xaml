@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:res="clr-namespace:GroupBudget_WPF.Resources"
         mc:Ignorable="d"
-        Title="GroupBuget" Height="450" Width="800">
+        Title="GroupBudget" Height="450" Width="800">
     
     <Window.Resources>
         <ResourceDictionary Source="Resources/Styles.xaml"/>
@@ -44,20 +44,34 @@
                             <RowDefinition Height="25"/>
                         </Grid.RowDefinitions>
                         <Label Grid.Row="0" Grid.Column="0" Content="{x:Static res:Strings.UserName}" />
-                        <TextBox x:Name="tbUserName" Grid.Row="0" Grid.Column="1" Style="{StaticResource tbStyle}" TextChanged="tb_TextChanged" />
+                        <TextBox x:Name="tbUserName" Grid.Row="0" Grid.Column="1" Style="{StaticResource tbStyle}" LostFocus="tb_LostFocus" TextChanged="tb_TextChanged" />
                         <Label Grid.Row="1" Grid.Column="0" Content="{x:Static res:Strings.FirstName}"/>
-                        <TextBox x:Name="tbFirstName" Grid.Row="1" Grid.Column="1" Style="{StaticResource tbStyle}" TextChanged="tb_TextChanged"/>
+                        <TextBox x:Name="tbFirstName" Grid.Row="1" Grid.Column="1" Style="{StaticResource tbStyle}" LostFocus="tb_LostFocus" TextChanged="tb_TextChanged"/>
                         <Label Grid.Row="2" Grid.Column="0" Content="{x:Static res:Strings.LastName}"/>
-                        <TextBox x:Name="tbLastName" Grid.Row="2" Grid.Column="1" Style="{StaticResource tbStyle}" TextChanged="tb_TextChanged" />
+                        <TextBox x:Name="tbLastName" Grid.Row="2" Grid.Column="1" Style="{StaticResource tbStyle}" LostFocus="tb_LostFocus" TextChanged="tb_TextChanged" />
                     </Grid>
                 </GroupBox>
             </StackPanel>
         </TabItem>
-        <TabItem x:Name="tiProjects" Header="{x:Static res:Strings.Projects}">
-            
+        <TabItem x:Name="tiProjects" Header="{x:Static res:Strings.Projects}" GotFocus="tiProjects_GotFocus">
+            <StackPanel Orientation="Horizontal">
+                <Grid Margin="10, 15, 0, 5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="250"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Label Content="{x:Static res:Strings.Projects}"/>
+                    <TextBox x:Name="tbProjectSelect" Grid.Column="1" Style="{StaticResource tbStyle}"/>
+                    <ListBox x:Name="lbProjectSelect" Grid.ColumnSpan="2" ItemsSource="{Binding projectList}" >
+                    </ListBox>
+                </Grid>
+            </StackPanel>
         </TabItem>
         <TabItem x:Name="tiBudget" Header="{x:Static res:Strings.Budget}">
-            
         </TabItem>
     </TabControl>
 </Window>

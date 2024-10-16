@@ -1,5 +1,7 @@
 ﻿using GroupBudget_WPF.Migrations;
 using GroupBudget_WPF.Models;
+using GroupBudget_WPF.Resources;    // needed to acces resource strings
+using Microsoft.EntityFrameworkCore;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,7 +12,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using GroupBudget_WPF.Resources;             // needed to acces resource strings
 
 namespace GroupBudget_WPF
 {
@@ -20,6 +21,9 @@ namespace GroupBudget_WPF
     public partial class MainWindow : Window
     {
         GB_Context context = App.Context;
+        Boolean textChanged = false;
+        List<Project> projectList { get; set; } = new List<Project>();    // Contains the datasource of the Listbox
+
 
         public MainWindow()
         {
@@ -106,17 +110,29 @@ namespace GroupBudget_WPF
 
         private void tb_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (!(tbUserName.Text=="" || tbFirstName.Text=="" || tbLastName.Text==""))
-            {
-                btSave.IsEnabled = true;
-            }
+            // Next block in comment has been moved to tb_TextLostFocus(sender, e)
+            //if (textChanged)
+            //{
+            //    // Example of using sender
+            //    //tbFirstName.Background = new SolidColorBrush(Colors.White);
+            //    //tbLastName.Background = new SolidColorBrush(Colors.White);
+            //    //tbUserName.Background = new SolidColorBrush(Colors.White);
+            //    //((TextBox)sender).Background = new SolidColorBrush(Colors.Gray);
+
+            //    if (!(tbUserName.Text == "" || tbFirstName.Text == "" || tbLastName.Text == ""))
+            //    {
+            //        btSave.IsEnabled = true;
+            //    }
+            //    textChanged = false;
+            //}
+            textChanged = true;
         }
 
         private void btDelete_Click(object sender, RoutedEventArgs e)
         {
 
             string s = string.Format(Strings.ResourceManager.GetString("ConfirmDelete"),tbUserName.Text);
-            if (MessageBox.Show(s, Strings.ResourceManager.GetString("Delete?"), MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            if (System.Windows.MessageBox.Show(s, Strings.ResourceManager.GetString("Delete?"), MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
                 Person person = App.Context.Persons.FirstOrDefault(p => p.Name == tbUserName.Text);
                 person.Deleted = DateTime.Now;
@@ -129,6 +145,51 @@ namespace GroupBudget_WPF
         private void tbSelecting_KeyUp(object sender, KeyEventArgs e)
         {
             InitTiPeople();
+        }
+
+        private void tiProjects_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (!lbProjectSelect.HasItems)
+            {
+                InitTiProjects();
+            }
+        }
+
+        private void InitTiProjects()
+        {
+            //projectList = (from project in context.Projects
+            //               where project.Deleted > DateTime.Now
+            //                   && (project.Name.Contains(tbProjectSelect.Text) || tbProjectSelect.Text == "")
+            //               orderby project.Name
+            //               select project).ToList();
+
+            projectList = context.Projects
+                            .Where(p => p.Deleted > DateTime.Now
+                                    && (tbProjectSelect.Text == "" || p.Name.Contains(tbProjectSelect.Text)))
+                            .OrderBy(p => p.Name)
+                            .Include(p => p.ProjectPersons)
+                            .ToList();
+
+            lbProjectSelect.ItemsSource = (from project in projectList
+                                            select project.Name + "   - " + (project.Description.Length > 30 ? project.Description.Substring(0, 30) + " ..." : project.Description));
+        }
+
+        private void tb_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (textChanged)
+            {
+                // Example of using sender
+                //tbFirstName.Background = new SolidColorBrush(Colors.White);
+                //tbLastName.Background = new SolidColorBrush(Colors.White);
+                //tbUserName.Background = new SolidColorBrush(Colors.White);
+                //((TextBox)sender).Background = new SolidColorBrush(Colors.Gray);
+
+                if (!(tbUserName.Text == "" || tbFirstName.Text == "" || tbLastName.Text == ""))
+                {
+                    btSave.IsEnabled = true;
+                }
+                textChanged = false;
+            }
         }
     }
 }
