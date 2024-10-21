@@ -30,7 +30,6 @@ namespace GroupBudget_WPF
         {
             // Interpretation of Xaml
             InitializeComponent();
-            //dgPersons.ItemsSource = context.Persons.Where(p => p.Deleted > DateTime.Now).ToList();
         }
 
         private void tiPeople_GotFocus(object sender, RoutedEventArgs e)
@@ -68,6 +67,7 @@ namespace GroupBudget_WPF
 
         private void InitTiPeople()
         {
+            dgPersons.Items.Clear();
             dgPersons.ItemsSource = (from person in App.Context.Persons
                                      where  person.Deleted > DateTime.Now
                                             && (tbSelecting.Text == ""
@@ -226,5 +226,6 @@ namespace GroupBudget_WPF
             // no tooltip should be shown if the tooltip == null
             e.Handled = ((ListBox)sender).ToolTip == null;
         }
+
     }
 }

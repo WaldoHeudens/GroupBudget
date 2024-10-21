@@ -92,7 +92,7 @@
                 </Grid>
             </StackPanel>
         </TabItem>
-        <TabItem x:Name="tiBudget" Header="{x:Static res:Strings.Budget}">
+        <TabItem x:Name="tiBudget" Header="{x:Static res:Strings.Budget}" IsEnabled="False">
         </TabItem>
     </TabControl>
 </Window>
