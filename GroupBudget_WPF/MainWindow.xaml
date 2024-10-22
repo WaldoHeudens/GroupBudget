@@ -65,8 +65,8 @@
                         <RowDefinition />
                     </Grid.RowDefinitions>
                     <Label Content="{x:Static res:Strings.Projects}"/>
-                    <TextBox x:Name="tbProjectSelect" Grid.Row="0" Grid.Column="1" Style="{StaticResource tbStyle}"/>
-                    <ListBox x:Name="lbProjectSelect" Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding projectList}" MouseLeftButtonUp="dgProjects_MouseLeftButtonUp" ToolTipOpening="lbProjectSelect_ToolTipOpening">
+                    <TextBox x:Name="tbProjectSelect" Grid.Row="0" Grid.Column="1" Style="{StaticResource tbStyle}" TextChanged="tbProjectSelect_TextChanged"/>
+                    <ListBox x:Name="lbProjectSelect" Grid.Row="1" Grid.ColumnSpan="2" ToolTipOpening="lbProjectSelect_ToolTipOpening" SelectionChanged="lbProjectSelect_SelectionChanged">
                         
                     </ListBox>
                 </Grid>
@@ -82,13 +82,14 @@
                         <RowDefinition />
                     </Grid.RowDefinitions>
                     <Label Content="{x:Static res:Strings.Project}"/>
-                    <TextBox x:Name="tbProjectName" Grid.Row="0" Grid.Column="1" Style="{StaticResource ResourceKey=tbStyle}" />
+                    <TextBox x:Name="tbProjectName" Grid.Row="0" Grid.Column="1" Style="{StaticResource ResourceKey=tbStyle}" Text="{Binding Name, Mode=TwoWay}" />
                     <Label Content="{x:Static res:Strings.Description}" Grid.Row="1" Grid.Column="0"/>
-                    <TextBox x:Name="tbProjectDescription" Grid.Row="1" Grid.Column="1" Style="{StaticResource ResourceKey=tbStyle}" />
+                    <TextBox x:Name="tbProjectDescription" Grid.Row="1" Grid.Column="1" Style="{StaticResource ResourceKey=tbStyle}" Text="{Binding Description}" />
                     <Label Content="{x:Static res:Strings.StartDate}" Grid.Row="2" Grid.Column="0"/>
-                    <TextBlock x:Name="tbProjectStartDate" Grid.Row="2" Grid.Column="1" Style="{StaticResource ResourceKey=tblStyle}" />
-                    <Label Content="{x:Static res:Strings.Members}" Grid.Row="3" />
-                    <ListBox x:Name="lbMembers" Grid.Row="3" Grid.Column="1"/>
+                    <DatePicker x:Name="tbProjectStartDate" Grid.Row="2" Grid.Column="1" SelectedDate="{Binding Path=StartDate, Mode=TwoWay,TargetNullValue=DateTime.Now}"
+/>
+                    <Label Content="{x:Static res:Strings.Members}" Grid.Row="3" /> 
+                    <ListBox x:Name="lbMembers" Grid.Row="3" Grid.Column="1" ItemsSource="{Binding ProjectPersons}" SelectedValuePath="PersonId" DisplayMemberPath="Person.Name"/>
                 </Grid>
             </StackPanel>
         </TabItem>

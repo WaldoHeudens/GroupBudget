@@ -23,6 +23,8 @@ namespace GroupBudget_WPF
         GB_Context context = App.Context;
         Boolean textChanged = false;
         List<Project> projectList { get; set; } = new List<Project>();    // Contains the datasource of the Listbox
+        Project selectedProject { get; set; } = null;
+
         ToolTip toolTip = new ToolTip();   // use only this tooltip instead of the control's tooltip
 
 
@@ -200,14 +202,14 @@ namespace GroupBudget_WPF
             }
         }
 
-        private void dgProjects_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            Project project = projectList[((ListBox)sender).SelectedIndex];
-            tbProjectStartDate.Text = project.StartDate.ToString("dd/mm/jj");
-            tbProjectName.Text = project.Name;
-            tbProjectDescription.Text = project.Description;
-            lbMembers.ItemsSource = (from member in project.ProjectPersons select member.Person.Name).ToList();
-        }
+        //private void dgProjects_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        //{
+        //    Project project = projectList[((ListBox)sender).SelectedIndex];
+        //    tbProjectStartDate.Text = project.StartDate.ToString("dd/mm/jj");
+        //    tbProjectName.Text = project.Name;
+        //    tbProjectDescription.Text = project.Description;
+        //    lbMembers.ItemsSource = (from member in project.ProjectPersons select member.Person.Name).ToList();
+        //}
 
         private void lbProjectSelectItem_MouseEnter(object sender, MouseEventArgs e)
         {
@@ -227,5 +229,15 @@ namespace GroupBudget_WPF
             e.Handled = ((ListBox)sender).ToolTip == null;
         }
 
+        private void lbProjectSelect_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            selectedProject = projectList[((ListBox)sender).SelectedIndex];
+            tiProjects.DataContext = selectedProject;
+        }
+
+        private void tbProjectSelect_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            InitTiProjects();
+        }
     }
 }
