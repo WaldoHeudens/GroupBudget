@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.CompilerServices;
 
 namespace GroupBudget_Web.Models
@@ -8,10 +9,10 @@ namespace GroupBudget_Web.Models
         public int Id { get; set; }
 
         [Required]
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
         [Required]
-        public string Description { get; set; }
+        public string Description { get; set; } = string.Empty;
 
         [Display (Name="Started")]
         [Required]
@@ -26,8 +27,12 @@ namespace GroupBudget_Web.Models
         [Display (Name="Estimated Budget")]
         public Decimal EstimatedBudget { get; set; } = 0;
 
+        [ForeignKey ("Category")]
+        public int CategoryId { get; set; } = 1;
+
 
         public DateTime Deleted { get; set; } = DateTime.MaxValue;
+        public Category? Category { get; set; }
 
     }
 }

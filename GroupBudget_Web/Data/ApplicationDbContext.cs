@@ -10,6 +10,7 @@ namespace GroupBudget_Web.Data
             : base(options)
         {
         }
-        public DbSet<GroupBudget_Web.Models.Project> Project { get; set; } = default!;
+        public DbSet<GroupBudget_Web.Models.Project> Projects { get; set; } = default!;
+        public DbSet<GroupBudget_Web.Models.Category> Categories { get; set; } = default!;
     }
 }

@@ -10,23 +10,22 @@ using GroupBudget_Web.Models;
 
 namespace GroupBudget_Web.Controllers
 {
-    public class ProjectsController : Controller
+    public class CategoriesController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public ProjectsController(ApplicationDbContext context)
+        public CategoriesController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Projects
+        // GET: Categories
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Projects.Where(p => p.Deleted > DateTime.Now).Include(p => p.Category);
-            return View(await applicationDbContext.ToListAsync());
+            return View(await _context.Categories.Where(c => c.Deleted > DateTime.Now).ToListAsync());
         }
 
-        // GET: Projects/Details/5
+        // GET: Categories/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,42 +33,39 @@ namespace GroupBudget_Web.Controllers
                 return NotFound();
             }
 
-            var project = await _context.Projects
-                .Include(p => p.Category)
+            var category = await _context.Categories
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (project == null)
+            if (category == null)
             {
                 return NotFound();
             }
 
-            return View(project);
+            return View(category);
         }
 
-        // GET: Projects/Create
+        // GET: Categories/Create
         public IActionResult Create()
         {
-            ViewData["CategoryId"] = new SelectList(_context.Categories.Where(c => c.Deleted > DateTime.Now), "Id", "Name");
-            return View(new Project());
+            return View(new Category());
         }
 
-        // POST: Projects/Create
+        // POST: Categories/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,StartDate,EndDate,EstimatedBudget,CategoryId,Deleted")] Project project)
+        public async Task<IActionResult> Create([Bind("Id,Name,Description,Deleted")] Category category)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(project);
+                _context.Add(category);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories.Where(p => p.Deleted > DateTime.Now), "Id", "Name", project.CategoryId);
-            return View(project);
+            return View(category);
         }
 
-        // GET: Projects/Edit/5
+        // GET: Categories/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -77,23 +73,22 @@ namespace GroupBudget_Web.Controllers
                 return NotFound();
             }
 
-            var project = await _context.Projects.FindAsync(id);
-            if (project == null)
+            var category = await _context.Categories.FindAsync(id);
+            if (category == null)
             {
                 return NotFound();
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories.Where(c => c.Deleted > DateTime.Now), "Id", "Name", project.CategoryId);
-            return View(project);
+            return View(category);
         }
 
-        // POST: Projects/Edit/5
+        // POST: Categories/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,StartDate,EndDate,EstimatedBudget,CategoryId,Deleted")] Project project)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Deleted")] Category category)
         {
-            if (id != project.Id)
+            if (id != category.Id)
             {
                 return NotFound();
             }
@@ -102,12 +97,12 @@ namespace GroupBudget_Web.Controllers
             {
                 try
                 {
-                    _context.Update(project);
+                    _context.Update(category);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProjectExists(project.Id))
+                    if (!CategoryExists(category.Id))
                     {
                         return NotFound();
                     }
@@ -118,11 +113,10 @@ namespace GroupBudget_Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories.Where(c => c.Deleted > DateTime.Now), "Id", "Name", project.CategoryId);
-            return View(project);
+            return View(category);
         }
 
-        // GET: Projects/Delete/5
+        // GET: Categories/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -130,36 +124,35 @@ namespace GroupBudget_Web.Controllers
                 return NotFound();
             }
 
-            var project = await _context.Projects
-                .Include(p => p.Category)
+            var category = await _context.Categories
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (project == null)
+            if (category == null)
             {
                 return NotFound();
             }
 
-            return View(project);
+            return View(category);
         }
 
-        // POST: Projects/Delete/5
+        // POST: Categories/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var project = await _context.Projects.FindAsync(id);
-            if (project != null)
+            var category = await _context.Categories.FindAsync(id);
+            if (category != null)
             {
-                project.Deleted = DateTime.Now;
-                _context.Projects.Update(project);
+                category.Deleted = DateTime.Now;
+                _context.Categories.Update(category);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ProjectExists(int id)
+        private bool CategoryExists(int id)
         {
-            return _context.Projects.Any(e => e.Id == id);
+            return _context.Categories.Any(e => e.Id == id);
         }
     }
 }

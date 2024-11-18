@@ -1,4 +1,4 @@
-﻿@model IEnumerable<GroupBudget_Web.Models.Project>
+﻿@model IEnumerable<GroupBudget_Web.Models.Category>
 
 @{
     ViewData["Title"] = "Index";
@@ -18,18 +18,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.Description)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StartDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EndDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EstimatedBudget)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Category)
-            </th>
             <th></th>
         </tr>
     </thead>
@@ -41,18 +29,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StartDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EndDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EstimatedBudget)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category.Name)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
