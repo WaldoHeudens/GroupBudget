@@ -32,6 +32,22 @@
             </th>
             <th></th>
         </tr>
+        <tr>
+            <form asp-controller="Projects" asp-action="Index" method="get">
+                <th>
+                    <input name="name" value="@ViewBag.Name" onchange="this.form.submit()"/>
+                </th>
+            <th>
+                <input name="description" value="@ViewBag.Description" onchange="this.form.submit()" />
+            </th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th> 
+                <select name="Category" class="form-control" asp-items="@ViewBag.Categories" onchange="this.form.submit()"></select>
+            </th>
+            </form>
+        </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
@@ -52,6 +68,7 @@
                 @Html.DisplayFor(modelItem => item.EstimatedBudget)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.CategoryId)
                 @Html.DisplayFor(modelItem => item.Category.Name)
             </td>
             <td>
@@ -63,3 +80,4 @@
 }
     </tbody>
 </table>
+

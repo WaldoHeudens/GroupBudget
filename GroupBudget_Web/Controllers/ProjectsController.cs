@@ -20,10 +20,19 @@ namespace GroupBudget_Web.Controllers
         }
 
         // GET: Projects
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string name = "", string description = "", int category = 1)
         {
-            var applicationDbContext = _context.Projects.Where(p => p.Deleted > DateTime.Now).Include(p => p.Category);
-            return View(await applicationDbContext.ToListAsync());
+            var projectLijst = _context.Projects
+                                .Where(p => p.Deleted > DateTime.Now
+                                            && (name == "" || p.Name.Contains(name))
+                                            && (description == "" || p.Description.Contains(description))
+                                            && (category == 1 || p.CategoryId == category))
+                                .OrderBy(p => p.Name)
+                                .Include(p => p.Category);
+            ViewBag.Name = name; 
+            ViewBag.Description = description;
+            ViewBag.Categories = new SelectList(_context.Categories, "Id", "Name", category);
+            return View(await projectLijst.ToListAsync());
         }
 
         // GET: Projects/Details/5
@@ -48,7 +57,7 @@ namespace GroupBudget_Web.Controllers
         // GET: Projects/Create
         public IActionResult Create()
         {
-            ViewData["CategoryId"] = new SelectList(_context.Categories.Where(c => c.Deleted > DateTime.Now), "Id", "Name");
+            ViewData["Categories"] = new SelectList(_context.Categories.Where(c => c.Deleted > DateTime.Now), "Id", "Name");
             return View(new Project());
         }
 
@@ -65,7 +74,7 @@ namespace GroupBudget_Web.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories.Where(p => p.Deleted > DateTime.Now), "Id", "Name", project.CategoryId);
+            ViewData["Categories"] = new SelectList(_context.Categories.Where(p => p.Deleted > DateTime.Now), "Id", "Name", project.CategoryId);
             return View(project);
         }
 
@@ -82,7 +91,7 @@ namespace GroupBudget_Web.Controllers
             {
                 return NotFound();
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories.Where(c => c.Deleted > DateTime.Now), "Id", "Name", project.CategoryId);
+            ViewData["Categories"] = new SelectList(_context.Categories.Where(c => c.Deleted > DateTime.Now), "Id", "Name", project.CategoryId);
             return View(project);
         }
 
@@ -118,7 +127,7 @@ namespace GroupBudget_Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories.Where(c => c.Deleted > DateTime.Now), "Id", "Name", project.CategoryId);
+            ViewData["Categories"] = new SelectList(_context.Categories.Where(c => c.Deleted > DateTime.Now), "Id", "Name", project.CategoryId);
             return View(project);
         }
 
