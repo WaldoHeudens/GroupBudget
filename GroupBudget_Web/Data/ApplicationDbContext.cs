@@ -4,7 +4,7 @@ using GroupBudget_Web.Models;
 
 namespace GroupBudget_Web.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<GroupBudgetUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -12,5 +12,6 @@ namespace GroupBudget_Web.Data
         }
         public DbSet<GroupBudget_Web.Models.Project> Projects { get; set; } = default!;
         public DbSet<GroupBudget_Web.Models.Category> Categories { get; set; } = default!;
+        public DbSet<GroupBudget_Web.Models.ProjectMember> ProjectMembers { get; set; } = default!;
     }
 }

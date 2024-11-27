@@ -1,14 +1,31 @@
 ﻿using GroupBudget_Web.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using SQLitePCL;
 
 namespace GroupBudget_Web.Data
 {
     public class SeedDataContext
     {
-        public static void Initialize(ApplicationDbContext context)
+        public static async void Initialize(ApplicationDbContext context, UserManager<GroupBudgetUser> userManager)
         {
             context.Database.EnsureCreated();
             context.Database.Migrate();
+
+            GroupBudgetUser dummyUser = null;
+            GroupBudgetUser testUser = null;
+
+            if (context.Users.FirstOrDefault(u => u.Id == "?") == null)
+            {
+                dummyUser = new GroupBudgetUser { Id = "?", UserName = "?", FirstName = "?", LastName="?", Email="?@?", PasswordHash="?", LockoutEnabled = true };
+                testUser = new GroupBudgetUser { UserName = "Test", FirstName = "Test", LastName = "Test", Email = "Test@Test.be" };
+                context.Users.Add(dummyUser);
+                context.SaveChanges();
+                var result = await userManager.CreateAsync(testUser, "Xxx!12345");
+            }
+
+            dummyUser = context.Users.FirstOrDefault(u => u.UserName == "?");
+            //testUser = context.Users.FirstOrDefault(u => u.UserName == "Test");
 
 
             if (!context.Categories.Any())
@@ -23,8 +40,8 @@ namespace GroupBudget_Web.Data
             {
                 Category defaultCategory = context.Categories.FirstOrDefault(c => c.Name == "?");
                 context.Projects.AddRange(
-                    new Project { Name="?", Description="?", Deleted=DateTime.Now, CategoryId = defaultCategory.Id },
-                    new Project { Name="Test", Description="Test", Category = defaultCategory}
+                    new Project { Name="?", Description="?", Deleted=DateTime.Now, CategoryId = defaultCategory.Id, StartedById = "?" },
+                    new Project { Name="Test", Description="Test", Category = defaultCategory, StartedById = dummyUser.Id}
                     );
                 context.SaveChanges();
             }

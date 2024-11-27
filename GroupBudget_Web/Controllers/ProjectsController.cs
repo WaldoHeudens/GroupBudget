@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GroupBudget_Web.Data;
 using GroupBudget_Web.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GroupBudget_Web.Controllers
 {
+    [Authorize]
     public class ProjectsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -66,10 +68,11 @@ namespace GroupBudget_Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,StartDate,EndDate,EstimatedBudget,CategoryId,Deleted")] Project project)
+        public async Task<IActionResult> Create([Bind("Id,Name,Description,StartDate,EndDate,EstimatedBudget,CategoryId,Deleted, StartedById")] Project project)
         {
             if (ModelState.IsValid)
             {
+                project.StartedById = _context.Users.FirstOrDefault(u => u.UserName == User.Identity.Name).Id;
                 _context.Add(project);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -100,7 +103,7 @@ namespace GroupBudget_Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,StartDate,EndDate,EstimatedBudget,CategoryId,Deleted")] Project project)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,StartDate,EndDate,EstimatedBudget,CategoryId,Deleted, StartedById")] Project project)
         {
             if (id != project.Id)
             {

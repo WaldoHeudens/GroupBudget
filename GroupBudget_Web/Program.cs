@@ -1,4 +1,5 @@
 using GroupBudget_Web.Data;
+using GroupBudget_Web.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -11,7 +12,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<GroupBudgetUser>(options => options.SignIn.RequireConfirmedAccount = false)  // voorlopig geen e-mail bevestiging voor de account
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
@@ -41,9 +43,9 @@ using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     ApplicationDbContext context = new ApplicationDbContext(services.GetRequiredService<DbContextOptions<ApplicationDbContext>>());
-    SeedDataContext.Initialize(context);
+    var userManager = services.GetRequiredService<UserManager<GroupBudgetUser>>();  // Needed to assign the first users
+    SeedDataContext.Initialize(context, userManager);
 }
-
 
 
 

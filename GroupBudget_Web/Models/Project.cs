@@ -30,6 +30,11 @@ namespace GroupBudget_Web.Models
         [ForeignKey ("Category")]
         public int CategoryId { get; set; } = 1;
 
+        [ForeignKey("GroupBudgetUser")]
+        public string? StartedById { get; set; } = "?";
+
+        public GroupBudgetUser? StartedBy { get; set; }   
+
 
         public DateTime Deleted { get; set; } = DateTime.MaxValue;
         public Category? Category { get; set; }

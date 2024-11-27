@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GroupBudget_Web.Data;
 using GroupBudget_Web.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GroupBudget_Web.Controllers
 {
+    [Authorize]
     public class CategoriesController : Controller
     {
         private readonly ApplicationDbContext _context;
