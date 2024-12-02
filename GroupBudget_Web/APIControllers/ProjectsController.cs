@@ -7,11 +7,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using GroupBudget_Web.Data;
 using GroupBudget_Web.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GroupBudget_Web.APIControllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ProjectsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;

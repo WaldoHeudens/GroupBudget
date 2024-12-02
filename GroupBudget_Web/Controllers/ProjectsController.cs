@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace GroupBudget_Web.Controllers
 {
-    [Authorize]
+    [Authorize (Roles = "User")]
     public class ProjectsController : Controller
     {
         private readonly ApplicationDbContext _context;

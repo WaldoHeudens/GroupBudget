@@ -25,7 +25,19 @@ namespace GroupBudget_Web.Data
             }
 
             dummyUser = context.Users.FirstOrDefault(u => u.UserName == "?");
-            //testUser = context.Users.FirstOrDefault(u => u.UserName == "Test");
+            testUser = context.Users.FirstOrDefault(u => u.UserName == "Test");
+
+            if (!context.Roles.Any())
+            {
+                context.Roles.AddRange(
+                    new IdentityRole { Id = "User", Name = "User", NormalizedName = "USER" },
+                    new IdentityRole { Id = "UserAdmin", Name = "UserAdmin", NormalizedName = "USERADMIN" }
+                    );
+                context.SaveChanges() ;
+                context.UserRoles.Add(new IdentityUserRole<string> { RoleId = "User", UserId = "?" });
+                context.SaveChanges();
+            }
+
 
 
             if (!context.Categories.Any())

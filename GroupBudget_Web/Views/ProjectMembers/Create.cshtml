@@ -11,11 +11,27 @@
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
+            @if (Model.ProjectId == 0)
+            {
+                Model.ProjectId = 3;
+            }
+            else
+            {
+                Model.ProjectId = Model.ProjectId;
+            }
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="ProjectId" />
             <input type="hidden" asp-for="BecameMemberDate" />
             <input type="hidden" asp-for="DoneById" />
             <input type="hidden" asp-for="deleted" />
+            @if (Model.ProjectId == 0)
+            {
+                Model.ProjectId = 3;
+            }
+            else
+            {
+                Model.ProjectId = Model.ProjectId;
+            }
             <div class="form-group">
                 <label asp-for="MemberId" class="control-label"></label>
                 <select asp-for="MemberId" class ="form-control" asp-items="ViewBag.MemberId"></select>
@@ -26,7 +42,7 @@
                 <span asp-validation-for="Remark" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Create" asp-route-ProjectId=@Model.ProjectId class="btn btn-primary" />  @*ProjectId als parameter meegegeven!!!*@
             </div>
         </form>
     </div>

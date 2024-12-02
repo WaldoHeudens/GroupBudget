@@ -1,6 +1,8 @@
+using GB_Web.Services;
 using GroupBudget_Web.Data;
 using GroupBudget_Web.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -19,6 +21,9 @@ builder.Services.AddControllersWithViews();
 
 // Needed for RESTFull API communication
 builder.Services.AddControllers();
+
+builder.Services.AddTransient<IEmailSender, MailKitEmailSender>();
+
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "GroupBudget_Web", Version = "v1" });
