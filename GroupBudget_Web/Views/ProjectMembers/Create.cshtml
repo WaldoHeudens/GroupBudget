@@ -1,12 +1,17 @@
 ﻿@model GroupBudget_Web.Models.ProjectMember
 
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer _localizer
+@inject IHtmlLocalizer<SharedResource> _sharedLocalizer
+
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = _sharedLocalizer["Create"];
 }
 
-<h1>Create</h1>
+<h1>@_sharedLocalizer["Create"]</h1>
 
-<h4>ProjectMember</h4>
+<h4>@_localizer["ProjectMember"]"</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -42,14 +47,14 @@
                 <span asp-validation-for="Remark" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" asp-route-ProjectId=@Model.ProjectId class="btn btn-primary" />  @*ProjectId als parameter meegegeven!!!*@
+                <input type="submit" value=@_sharedLocalizer["Create"] asp-route-ProjectId=@Model.ProjectId class="btn btn-primary" />  @*ProjectId als parameter meegegeven!!!*@
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">@_sharedLocalizer["Back To List"]</a>
 </div>
 
 @section Scripts {

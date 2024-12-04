@@ -118,18 +118,18 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Back To List" xml:space="preserve">
-    <value>Back To List</value>
+    <value>Terug naar overzicht</value>
   </data>
   <data name="Create" xml:space="preserve">
-    <value>Create</value>
+    <value>Aanmaken</value>
   </data>
   <data name="Edit" xml:space="preserve">
-    <value>Edit</value>
+    <value>Wijzigen</value>
   </data>
   <data name="Project" xml:space="preserve">
     <value>Project</value>
   </data>
   <data name="Save" xml:space="preserve">
-    <value>Save</value>
+    <value>Opslaan</value>
   </data>
 </root>

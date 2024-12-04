@@ -3,13 +3,13 @@
 @using Microsoft.Extensions.Localization
 
 @inject IViewLocalizer _localizer
-@* @inject IStringLocalizer<SharedResource> _shared
- *@
+@inject IStringLocalizer<SharedResource> _shared
+
 @{
-    ViewData["Title"] = _localizer["Edit"];
+    ViewData["Title"] = _shared["Edit"];
 }
 
-<h1>@_localizer["Edit"]</h1>
+<h1>@_shared["Edit"]</h1>
 
 <h4>@_localizer["Project"]</h4>
 <hr />
@@ -50,14 +50,14 @@
                 <span asp-validation-for="CategoryId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value=@_shared["Save"] class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">@_localizer["Back To List"]</a>
+    <a asp-action="Index">@_shared["Back To List"]</a>
 </div>
 
 @section Scripts {
