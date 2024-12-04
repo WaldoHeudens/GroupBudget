@@ -13,5 +13,6 @@ namespace GroupBudget_Web.Data
         public DbSet<GroupBudget_Web.Models.Project> Projects { get; set; } = default!;
         public DbSet<GroupBudget_Web.Models.Category> Categories { get; set; } = default!;
         public DbSet<GroupBudget_Web.Models.ProjectMember> ProjectMembers { get; set; } = default!;
+        public DbSet<GroupBudget_Web.Models.Language> Languages { get; set; } = default!;
     }
 }

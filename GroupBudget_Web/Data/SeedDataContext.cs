@@ -7,7 +7,7 @@ namespace GroupBudget_Web.Data
 {
     public class SeedDataContext
     {
-        public static async void Initialize(ApplicationDbContext context, UserManager<GroupBudgetUser> userManager)
+        public static async Task Initialize(ApplicationDbContext context, UserManager<GroupBudgetUser> userManager)
         {
             context.Database.EnsureCreated();
             context.Database.Migrate();
@@ -15,10 +15,24 @@ namespace GroupBudget_Web.Data
             GroupBudgetUser dummyUser = null;
             GroupBudgetUser testUser = null;
 
+            if (!context.Languages.Any())
+            {
+                context.Languages.AddRange(
+                    new Language(),
+                    new Language { Code = "en", IsSystemLanguage = true, Name = "English" },
+                    new Language { Code = "fr", IsSystemLanguage = true, Name = "français" },
+                    new Language { Code = "nl", IsSystemLanguage = true, Name = "Nederlands" },
+                    new Language { Code = "de", IsSystemLanguage = false, Name = "Deutsch" }
+                    ); 
+                context.SaveChanges();
+            }
+
+            Language.Languages = context.Languages.Where(l => l.IsSystemLanguage && l.Code != "? ").ToList();
+
             if (context.Users.FirstOrDefault(u => u.Id == "?") == null)
             {
-                dummyUser = new GroupBudgetUser { Id = "?", UserName = "?", FirstName = "?", LastName="?", Email="?@?", PasswordHash="?", LockoutEnabled = true };
-                testUser = new GroupBudgetUser { UserName = "Test", FirstName = "Test", LastName = "Test", Email = "Test@Test.be" };
+                dummyUser = new GroupBudgetUser { Id = "?", UserName = "?", FirstName = "?", LastName="?", Email="?@?", PasswordHash="?", LockoutEnabled = true, LanguageCode = "?" };
+                testUser = new GroupBudgetUser { UserName = "Test", FirstName = "Test", LastName = "Test", Email = "Test@Test.be", LanguageCode = "nl"};
                 context.Users.Add(dummyUser);
                 context.SaveChanges();
                 var result = await userManager.CreateAsync(testUser, "Xxx!12345");

@@ -1,12 +1,17 @@
 ﻿@model GroupBudget_Web.Models.Project
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.Extensions.Localization
 
+@inject IViewLocalizer _localizer
+@* @inject IStringLocalizer<SharedResource> _shared
+ *@
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = _localizer["Edit"];
 }
 
-<h1>Edit</h1>
+<h1>@_localizer["Edit"]</h1>
 
-<h4>Project</h4>
+<h4>@_localizer["Project"]</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -52,7 +57,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">@_localizer["Back To List"]</a>
 </div>
 
 @section Scripts {

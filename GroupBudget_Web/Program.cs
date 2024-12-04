@@ -3,6 +3,7 @@ using GroupBudget_Web.Data;
 using GroupBudget_Web.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -23,6 +24,11 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddControllers();
 
 builder.Services.AddTransient<IEmailSender, MailKitEmailSender>();
+builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+
+builder.Services.AddMvc()
+    .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)   // use languate identification as suffix
+    .AddDataAnnotationsLocalization();          // provide automatic translation of [Display] dataannotation
 
 builder.Services.AddSwaggerGen(c =>
 {
@@ -44,6 +50,7 @@ else
 }
 
 
+
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
@@ -52,7 +59,11 @@ using (var scope = app.Services.CreateScope())
     SeedDataContext.Initialize(context, userManager);
 }
 
-
+var supportedCultures = new[] { "en-US", "fr", "nl" };
+var localizationOptions = new RequestLocalizationOptions().SetDefaultCulture(supportedCultures[0])
+       .AddSupportedCultures(supportedCultures)
+       .AddSupportedUICultures(supportedCultures);
+app.UseRequestLocalization(localizationOptions);
 
 app.UseStaticFiles();
 

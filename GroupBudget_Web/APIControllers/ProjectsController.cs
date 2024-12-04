@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using GroupBudget_Web.Data;
 using GroupBudget_Web.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Localization;
 
 namespace GroupBudget_Web.APIControllers
 {
@@ -17,10 +18,12 @@ namespace GroupBudget_Web.APIControllers
     public class ProjectsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly IStringLocalizer<ProjectsController> _localizer;
 
-        public ProjectsController(ApplicationDbContext context)
+        public ProjectsController(ApplicationDbContext context, IStringLocalizer<ProjectsController> localizer)
         {
             _context = context;
+            _localizer = localizer;
         }
 
         // GET: api/Projects
