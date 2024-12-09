@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using GroupBudget_Web.Models;
+using GroupBudget_Web.ViewModels;
 
 namespace GroupBudget_Web.Data
 {
@@ -14,5 +15,6 @@ namespace GroupBudget_Web.Data
         public DbSet<GroupBudget_Web.Models.Category> Categories { get; set; } = default!;
         public DbSet<GroupBudget_Web.Models.ProjectMember> ProjectMembers { get; set; } = default!;
         public DbSet<GroupBudget_Web.Models.Language> Languages { get; set; } = default!;
+        //public DbSet<GroupBudget_Web.ViewModels.UserViewModel> UserViewModels { get; set; } = default!;
     }
 }

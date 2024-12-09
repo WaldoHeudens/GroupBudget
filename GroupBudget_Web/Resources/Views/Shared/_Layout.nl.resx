@@ -132,4 +132,7 @@
   <data name="Projects" xml:space="preserve">
     <value>Projecten</value>
   </data>
+  <data name="Users" xml:space="preserve">
+    <value>Gebruikers</value>
+  </data>
 </root>

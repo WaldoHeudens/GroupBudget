@@ -17,5 +17,10 @@ namespace GroupBudget_Web.Models
         [ForeignKey("Languages")]
         public string LanguageCode { get; set; } = "?";
 
+        public override string ToString()
+        {
+            return FirstName + " " + LastName;
+        }
+
     }
 }
