@@ -38,7 +38,7 @@ namespace GroupBudget_Web.Data
                 var result = await userManager.CreateAsync(testUser, "Xxx!12345");
             }
 
-            dummyUser = context.Users.FirstOrDefault(u => u.UserName == "?");
+            Globals.DefaultUser = context.Users.FirstOrDefault(u => u.UserName == "?");
             testUser = context.Users.FirstOrDefault(u => u.UserName == "Test");
 
             if (!context.Roles.Any())

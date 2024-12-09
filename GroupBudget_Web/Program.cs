@@ -1,6 +1,7 @@
 using GB_Web.Services;
 using GroupBudget_Web.Data;
 using GroupBudget_Web.Models;
+using GroupBudget_Web.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc.Razor;
@@ -34,6 +35,11 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "GroupBudget_Web", Version = "v1" });
 });
+
+builder.Services.AddTransient<IMyUser, MyUser>();
+
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

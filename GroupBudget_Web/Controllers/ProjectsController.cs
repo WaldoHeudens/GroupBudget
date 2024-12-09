@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using GroupBudget_Web.Data;
 using GroupBudget_Web.Models;
 using Microsoft.AspNetCore.Authorization;
+using GroupBudget_Web.Services;
 
 namespace GroupBudget_Web.Controllers
 {
@@ -15,10 +16,12 @@ namespace GroupBudget_Web.Controllers
     public class ProjectsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly GroupBudgetUser _user;
 
-        public ProjectsController(ApplicationDbContext context)
+        public ProjectsController(ApplicationDbContext context, IMyUser user)
         {
             _context = context;
+            _user = user.User;
         }
 
         // GET: Projects
