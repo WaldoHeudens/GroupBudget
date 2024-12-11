@@ -1,0 +1,13 @@
+﻿@model GroupBudget_Web.Models.Parameter
+
+@{
+    Layout = null;
+}
+
+@using (Html.AjaxBeginForm("_EditPartial", "Parameters", new AjaxOptions { HttpMethod = "post", InsertionMode = InsertionMode.Replace, UpdateTargetId=Model.Name }))
+{
+    <td id="#@Model.Name">
+        <input type="hidden" asp-for="Name" />
+        <input asp-for="Value" class="farm-control" onchange="$(this.form).submit();" />
+    </td>
+}

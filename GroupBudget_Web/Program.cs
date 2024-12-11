@@ -1,3 +1,4 @@
+using AspNetCore.Unobtrusive.Ajax;
 using GB_Web.Services;
 using GroupBudget_Web.Data;
 using GroupBudget_Web.Models;
@@ -21,6 +22,9 @@ builder.Services.AddDefaultIdentity<GroupBudgetUser>(options => options.SignIn.R
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
+
+// Needed for AJAX-communication
+builder.Services.AddUnobtrusiveAjax();
 
 // Needed for RESTFull API communication
 builder.Services.AddControllers();
@@ -98,6 +102,8 @@ var localizationOptions = new RequestLocalizationOptions().SetDefaultCulture(sup
 app.UseRequestLocalization(localizationOptions);
 
 app.UseStaticFiles();
+
+app.UseUnobtrusiveAjax();
 
 app.UseRouting();
 
