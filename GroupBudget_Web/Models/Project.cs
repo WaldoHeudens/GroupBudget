@@ -30,6 +30,7 @@ namespace GroupBudget_Web.Models
         public Decimal EstimatedBudget { get; set; } = 0;
 
         [ForeignKey ("Category")]
+        [Display (Name="Category")]
         public int CategoryId { get; set; } = 1;
 
         [ForeignKey("GroupBudgetUser")]

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using NETCore.MailKit.Infrastructure.Internal;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +26,28 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddControllers();
 
 builder.Services.AddTransient<IEmailSender, MailKitEmailSender>();
+builder.Services.Configure<MailKitOptions>
+    (
+       options => 
+        {
+            //Option 1:  Rubbish, as this information is hardcoded
+            //options.Server = "ServierName";
+            //options.Port = Convert.ToInt32("465");
+            //options.Account ="MyAccount";
+            //options.Password = "Abc!12345";
+            //options.SenderEmail = "Admin@GroupBudget.be";
+            //options.SenderName = "Administrator";
+
+            // Option 2:  Dangerous, as information is available for anyone having access to appsettings.json
+            //options.Server = builder.Configuration["ExternalProviders:MailKit:SMTP:Address"];
+            //options.Port = Convert.ToInt32(builder.Configuration["ExternalProviders:MailKit:SMTP:Port"]);
+            //options.Account = builder.Configuration["ExternalProviders:MailKit:SMTP:Account"];
+            //options.Password = builder.Configuration["ExternalProviders:MailKit:SMTP:Password"];
+            //options.SenderEmail = builder.Configuration["ExternalProviders:MailKit:SMTP:SenderEmail"];
+            //options.SenderName = builder.Configuration["ExternalProviders:MailKit:SMTP:SenderName"];
+        }
+    );
+
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 
 builder.Services.AddMvc()
@@ -41,6 +64,9 @@ builder.Services.AddTransient<IMyUser, MyUser>();
 
 
 var app = builder.Build();
+Globals.App = app;
+
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -81,6 +107,9 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
+
+// Add my customized middleware
+app.UseMiddleware<MyMiddleWare>();
 
 app.UseEndpoints(endpoints =>
 {

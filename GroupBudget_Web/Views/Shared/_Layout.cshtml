@@ -45,6 +45,13 @@
                                 </li>
                             }
                         }
+                        @if (User.IsInRole("UserAdmin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Parameters" asp-action="Index">@_localizer["Parameters"]</a>
+                            </li>
+                        }
+
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">@_localizer["Privacy"]</a>
                         </li>

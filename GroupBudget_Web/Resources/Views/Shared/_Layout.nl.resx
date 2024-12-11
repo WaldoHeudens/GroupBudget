@@ -126,6 +126,9 @@
   <data name="Index" xml:space="preserve">
     <value>Index</value>
   </data>
+  <data name="Parameters" xml:space="preserve">
+    <value>Parameters</value>
+  </data>
   <data name="Privacy" xml:space="preserve">
     <value>Vertrouwelijkheid</value>
   </data>
